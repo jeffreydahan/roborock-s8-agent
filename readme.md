@@ -1,4 +1,7 @@
 # Background
+![image](https://github.com/user-attachments/assets/ea67fb7e-f4d5-4db2-aa2b-6e94a1e5b0fd)
+
+
 This is a Google Agent Development Kit (ADK) example which can control a Roborock device
 - https://github.com/google/adk-samples/tree/main
 
