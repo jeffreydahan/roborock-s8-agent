@@ -27,6 +27,12 @@ ROBOROCK_USERNAME = "your Roborock Username"
 ROBOROCK_PASSWORD = "your Roborock Password"
 
 ```
+# Running locally
+From the directory above roborock-s8-agent,
+```
+adk web
+```
+then browse to http://localhost:8000 to begin testing
 
 # Limitations and issues
 Due to ADK limitations with function calling with parameters, all functions that would have had parameters (such as the ones for selective room cleaning) have to be added as separate hard-coded functions
