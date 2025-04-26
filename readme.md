@@ -18,7 +18,7 @@ Create a python virtual environment
 python -m venv .venv
 ```
 
-Install all pre-requisites using
+Install all pre-requisites using. I ran a pip freeze command which output all requirements. You will likely already have most of them satisfied. 
 ```
 pip install -r requirements.txt
 ```
