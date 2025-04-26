@@ -5,6 +5,8 @@
 This is a Google Agent Development Kit (ADK) example which can control a Roborock device
 - https://github.com/google/adk-samples/tree/main
 
+This is a personal development project and is not related to Google or Roborock professionally or at a partnership level. 
+
 It makes use of the python-roborock library:
 - https://github.com/Python-roborock/python-roborock/tree/main/docs
 
