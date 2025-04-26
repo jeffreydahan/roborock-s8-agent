@@ -5,7 +5,9 @@
 This is a Google Agent Development Kit (ADK) example which can control a Roborock device
 - https://github.com/google/adk-samples/tree/main
 
-This is a personal development project and is not related to Google or Roborock professionally or at a partnership level.  Gemini Code Assist was extremely valuable with this effort and saved many hours in related to trying different structures and especially with debugging errors. 
+This is a personal development project and is not related to Google or Roborock professionally or at a partnership level.  
+
+Gemini Code Assist was extremely valuable with this effort and saved many hours in related to trying different structures and especially with debugging errors. 
 
 This agent allows for natural language interaction with your Roborock device. The Agent translates your natural language chat inputs into valid commanda by making use of the functions (tools) defined in the agent.py file
 
@@ -26,7 +28,7 @@ The current features are also listed in the agent.py root_agent instructions
 - get_room_mapping (gets a list of the rooms in a map)
 - app_segment_clean (starts cleaning rooms or segments)
 
-# Install Steps
+# Installation Steps
 Create a python virtual environment
 ```
 python -m venv .venv
@@ -91,7 +93,7 @@ Next using the placeholders I have here, ask the agent to clean Bedroom 4.
 Now in the Roborock App, you can see which room actually will be cleaned.
 ![image](https://github.com/user-attachments/assets/851bfff1-1104-4f11-9093-bd83c2cca364)
 Now update the instructions line for 16 with your actual room name. You can type stop immediately and keep iterating until complete without having to return to the dock.
-# Limitations and issue
+# Limitations and Issues
 You must add a mapping manually in the agent.py root_agent instruction sections to let the agent know which room name corresponds to which segment name.  See above for how to do this.
 
 For future functionality, you will see a full listing of all commands in the commands.txt file.  If you add your own functionality, ensure you add the functions in the code, add the name of the function to the tools section, and add the details to the instructions section.
