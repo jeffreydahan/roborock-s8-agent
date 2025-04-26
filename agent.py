@@ -170,6 +170,34 @@ async def app_pause():
         await reset_connection()
         return {"error": f"Error sending {command}: {e}. Connection reset."}
 
+# Starts collecting dust
+async def app_start_collect_dust():
+    if not await ensure_login():
+        return {"error": "Not logged in to Roborock."}
+    command = "app_start_collect_dust"
+    try:
+        await mqtt_client.send_command(command, None)
+        print(f"Command sent: {command}")
+        return {"result": f"Command {command} sent successfully."}
+    except Exception as e:
+        print(f"Error sending {command}: {e}")
+        await reset_connection()
+        return {"error": f"Error sending {command}: {e}. Connection reset."}
+
+# Stops collecting dust
+async def app_stop_collect_dust():
+    if not await ensure_login():
+        return {"error": "Not logged in to Roborock."}
+    command = "app_stop_collect_dust"
+    try:
+        await mqtt_client.send_command(command, None)
+        print(f"Command sent: {command}")
+        return {"result": f"Command {command} sent successfully."}
+    except Exception as e:
+        print(f"Error sending {command}: {e}")
+        await reset_connection()
+        return {"error": f"Error sending {command}: {e}. Connection reset."}
+
 # generate mapping of rooms. This returns a tuple of room indexes and IDs aso known as segments
 async def get_room_mapping():
     if not await ensure_login():
@@ -213,6 +241,8 @@ root_agent = Agent(
         - app_start (this command starts vacuuming and mopping job)
         - app_stop (this command stops the vacuuming and mopping job)
         - app_pause (this command pauses the vacuuming and mopping job)
+        - app_start_collect_dust (this command starts emptying the dust bin)
+        - app_stop_collect_dust (this command stops emptying the dust bin)
         - get_room_mapping (gets a list of the rooms in a map)
         - app_segment_clean (starts cleaning rooms or segments) - when using this command, you must pass
         a segment number from the mapping below.  For example, for a request to clean Bedroom4, you would call
@@ -240,6 +270,8 @@ root_agent = Agent(
         app_start,
         app_stop,
         app_pause,
+        app_start_collect_dust,
+        app_stop_collect_dust,
         get_room_mapping,
         app_segment_clean,
     ],
