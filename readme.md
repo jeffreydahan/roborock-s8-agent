@@ -34,14 +34,50 @@ ROBOROCK_USERNAME = "your Roborock Username"
 ROBOROCK_PASSWORD = "your Roborock Password"
 
 ```
+# Agent Configuration
+After the above installation, you will need to update the room mapping in your instructions.  You can do this using the output of the get_room_mappings function from the agent after you run locally below.  You can see from the output here, they are only returned as identifiers and not your actually room names.
+![image](https://github.com/user-attachments/assets/440a02d4-66fd-446b-bd2b-8f71b83c8715)
+And on the left side, you can see and scroll to get all of your room indexes (in this case starting at 16)
+![image](https://github.com/user-attachments/assets/f55ee86d-9587-4520-93cf-c86018f88fbd)
+Next, add your indexes to the instructions section of your root_agent
+```
+Segment mapping:
+16 = Bedroom4
+17 = Balcony
+18 = Bedroom3
+...
+```
+Next using the placeholders I have here, ask the agent to clean Bedroom 4.
+![image](https://github.com/user-attachments/assets/76092257-9ed2-4010-8fcd-178f0248a5b6)
+Now in the Roborock App, you can see which room actually will be cleaned.
+![image](https://github.com/user-attachments/assets/851bfff1-1104-4f11-9093-bd83c2cca364)
+Now update the instructions line for 16 with your actual room name. You can type stop immediately and keep iterating until complete without having to return to the dock.
+
 # Running locally
 From the directory above roborock-s8-agent,
 ```
 adk web
 ```
-then browse to http://localhost:8000 to begin testing
-
+then browse to http://localhost:8000 to begin configuration and testing
+# Agent Configuration
+After the above installation, you will need to update the room mapping in your instructions.  You can do this using the output of the get_room_mappings function from the agent after you run locally below.  You can see from the output here, they are only returned as identifiers and not your actually room names.
+![image](https://github.com/user-attachments/assets/440a02d4-66fd-446b-bd2b-8f71b83c8715)
+And on the left side, you can see and scroll to get all of your room indexes (in this case starting at 16)
+![image](https://github.com/user-attachments/assets/f55ee86d-9587-4520-93cf-c86018f88fbd)
+Next, add your indexes to the instructions section of your root_agent
+```
+Segment mapping:
+16 = Bedroom4
+17 = Balcony
+18 = Bedroom3
+...
+```
+Next using the placeholders I have here, ask the agent to clean Bedroom 4.
+![image](https://github.com/user-attachments/assets/76092257-9ed2-4010-8fcd-178f0248a5b6)
+Now in the Roborock App, you can see which room actually will be cleaned.
+![image](https://github.com/user-attachments/assets/851bfff1-1104-4f11-9093-bd83c2cca364)
+Now update the instructions line for 16 with your actual room name. You can type stop immediately and keep iterating until complete without having to return to the dock.
 # Limitations and issue
-You must add a mapping manually in the agent.py root_agent instruction sections to let the agent know which room name corresponds to which segment name.  You can ask the agent to "get the room mappings".  Then you will need to copy the "app_segment_clean_XX" function for each segment returned (the first of the 3 values in each line item).  Run each separately, check the App for which room lights up (stop the cleaning if you want to).  Then you can update the instructions section with the mapping.  You can see the section created in the instructions section to see how this works.  This allows for selective cleaning by room name.
+You must add a mapping manually in the agent.py root_agent instruction sections to let the agent know which room name corresponds to which segment name.  See above for how to do this.
 
 For future functionality, you will see a full listing of all commands in the commands.txt file.  If you add your own functionality, ensure you add the functions in the code, add the name of the function to the tools section, and add the details to the instructions section.
