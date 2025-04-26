@@ -42,7 +42,7 @@ adk web
 then browse to http://localhost:8000 to begin testing
 
 # Limitations and issues
-Due to ADK limitations with function calling with parameters, all functions that would have had parameters (such as the ones for selective room cleaning) have to be added as separate hard-coded functions
+Due to issues I encountered with passing parameters (work in progress), all functions that would have had parameters (such as the ones for selective room cleaning) have to be added as separate, hard-coded functions
 
 In addition, due to a limitation with room names (segments) not being listed by the Roborock, you must add a mapping manually in the agent.py root_agent instruction sections to let the agent know which room name corresponds to which segment name.  You can ask the agent to "get the room mappings".  Then you will need to copy the "app_segment_clean_XX" function for each segment returned (the first of the 3 values in each line item).  Run each separately, check the App for which room lights up (stop the cleaning if you want to).  Then you can update the instructions section with the mapping.  You can see the section created in the instructions section to see how this works.  This allows for selective cleaning by room name.
 
