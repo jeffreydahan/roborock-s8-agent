@@ -12,6 +12,20 @@ This agent allows for natural language interaction with your Roborock device. Th
 It makes use of the python-roborock library:
 - https://github.com/Python-roborock/python-roborock/tree/main/docs
 
+# Current Features
+The current features are also listed in the agent.py root_agent instructions
+- get_status (this command gets the current status of the Roborock)
+- app_charge (this command sends the Roborock back to the dock)
+- app_start_wash (this command starts the washing of the mop while docked)
+- app_stop_wash (this command stops the washing of the mop while docked)
+- app_start (this command starts vacuuming and mopping job)
+- app_stop (this command stops the vacuuming and mopping job)
+- app_pause (this command pauses the vacuuming and mopping job)
+- app_start_collect_dust (this command starts emptying the dust bin)
+- app_stop_collect_dust (this command stops emptying the dust bin)
+- get_room_mapping (gets a list of the rooms in a map)
+- app_segment_clean (starts cleaning rooms or segments)
+
 # Install Steps
 Create a python virtual environment
 ```
