@@ -185,12 +185,12 @@ async def get_room_mapping():
         return {"error": f"Error sending {command}: {e}. Connection reset."}
 
 # cleans a specific room also known as segment. To Do is to make this dynamic based upon desired segment from instructions mapping in thr Agent definition below. 
-async def app_segment_clean_16():
+async def app_segment_clean(segment_number: int) -> str:
     if not await ensure_login():
         return {"error": "Not logged in to Roborock."}
     command = "app_segment_clean"
     try:
-        segment = await mqtt_client.send_command(command, [{"segments": [16], "repeat": 1}])
+        segment = await mqtt_client.send_command(command, [{"segments": [segment_number], "repeat": 1}])
         print(f"Command sent: {command}")
         return segment
     except Exception as e:
@@ -214,10 +214,22 @@ root_agent = Agent(
         - app_stop (this command stops the vacuuming and mopping job)
         - app_pause (this command pauses the vacuuming and mopping job)
         - get_room_mapping (gets a list of the rooms in a map)
-        - app_segment_clean_16 (starts cleaning Abby's Room)
+        - app_segment_clean (starts cleaning rooms or segments) - when using this command, you must pass
+        a segment number from the mapping below.  For example, for a request to clean Bedroom4, you would call
+        app_segment_clean(16) where you would send the number 16 as an integer
 
-        for segments, here is the mapping of segment_number to the room name
-        16 = Bedroom 4
+        Segment mapping:
+        16 = Bedroom4
+        17 = Balcony
+        18 = Bedroom3
+        19 = Bathroom
+        20 = Hallway
+        21 = Kitchen
+        22 = Dining Room
+        23 = Entryway
+        24 = Bedroom1
+        25 = Bedroom2
+        26 = Living Room
         """,
     # tells the agent what tools (function names from above) it has access to. The agent uses the instructions above to understand how and when to use these tools. 
     tools=[
@@ -229,6 +241,6 @@ root_agent = Agent(
         app_stop,
         app_pause,
         get_room_mapping,
-        app_segment_clean_16,
+        app_segment_clean,
     ],
 )
