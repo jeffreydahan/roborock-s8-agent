@@ -1,12 +1,14 @@
-# Import ADK Agent
+# Import ADK Agent and other libraries
 from google.adk.agents import Agent
 import os  # Import the os module for environment variables
 import asyncio
+from dotenv import load_dotenv
 
+# Import Roborock libraries
 from roborock import HomeDataProduct, DeviceData, RoborockCommand
 from roborock.version_1_apis import RoborockMqttClientV1, RoborockLocalClientV1
 from roborock.web_api import RoborockApiClient
-from dotenv import load_dotenv
+
 
 load_dotenv()  # Load environment variables from .env file
 
@@ -46,6 +48,7 @@ async def ensure_login():
             return False
     return True
 
+# Resets Roborock login and session
 async def reset_connection():
     global mqtt_client
     global device
@@ -60,6 +63,7 @@ async def reset_connection():
             device = None
             print("Roborock connection reset.")
 
+# Get Roborock status
 async def get_status():
     if not await ensure_login():
         return {"error": "Not logged in to Roborock."}
@@ -82,6 +86,7 @@ async def get_status():
         await reset_connection()
         return {"error": f"Error getting status: {e}. Connection reset."}
 
+# Return Roborock to dock and ends job
 async def app_charge():
     if not await ensure_login():
         return {"error": "Not logged in to Roborock."}
@@ -95,6 +100,7 @@ async def app_charge():
         await reset_connection()
         return {"error": f"Error sending {command}: {e}. Connection reset."}
 
+# Start washing the mop while docked
 async def app_start_wash():
     if not await ensure_login():
         return {"error": "Not logged in to Roborock."}
@@ -108,6 +114,7 @@ async def app_start_wash():
         await reset_connection()
         return {"error": f"Error sending {command}: {e}. Connection reset."}
 
+# Stops washing the mop while docked
 async def app_stop_wash():
     if not await ensure_login():
         return {"error": "Not logged in to Roborock."}
@@ -121,6 +128,7 @@ async def app_stop_wash():
         await reset_connection()
         return {"error": f"Error sending {command}: {e}. Connection reset."}
 
+# Start general cleaning of all areas
 async def app_start():
     if not await ensure_login():
         return {"error": "Not logged in to Roborock."}
@@ -134,6 +142,7 @@ async def app_start():
         await reset_connection()
         return {"error": f"Error sending {command}: {e}. Connection reset."}
 
+# Stops cleaning
 async def app_stop():
     if not await ensure_login():
         return {"error": "Not logged in to Roborock."}
@@ -147,6 +156,7 @@ async def app_stop():
         await reset_connection()
         return {"error": f"Error sending {command}: {e}. Connection reset."}
 
+# Pauses cleaning
 async def app_pause():
     if not await ensure_login():
         return {"error": "Not logged in to Roborock."}
@@ -160,6 +170,7 @@ async def app_pause():
         await reset_connection()
         return {"error": f"Error sending {command}: {e}. Connection reset."}
 
+# generate mapping of rooms. This returns a tuple of room indexes and IDs aso known as segments
 async def get_room_mapping():
     if not await ensure_login():
         return {"error": "Not logged in to Roborock."}
@@ -173,6 +184,7 @@ async def get_room_mapping():
         await reset_connection()
         return {"error": f"Error sending {command}: {e}. Connection reset."}
 
+# cleans a specific room also known as segment. To Do is to make this dynamic based upon desired segment from instructions mapping in thr Agent definition below. 
 async def app_segment_clean_16():
     if not await ensure_login():
         return {"error": "Not logged in to Roborock."}
@@ -186,10 +198,12 @@ async def app_segment_clean_16():
         await reset_connection()
         return {"error": f"Error sending {command}: {e}. Connection reset."}
 
+# root agent definition
 root_agent = Agent(
-    name="Roborock_Agent",
+    name="Roborock_Agent", # ensure no spaces here
     model="gemini-2.0-flash-001",
     description="Agent to control and get status of your Roborock vacuum",
+    # natural language i struction set which explains to the agent its capabilities and how to operate
     instruction="""I can control and get the status of your Roborock vacuum.
         I can handle the following commands
         - get_status (this command gets the current status of the Roborock)
@@ -203,8 +217,9 @@ root_agent = Agent(
         - app_segment_clean_16 (starts cleaning Abby's Room)
 
         for segments, here is the mapping of segment_number to the room name
-        16 = Abby's Room
+        16 = Bedroom 4
         """,
+    # tells the agent what tools (function names from above) it has access to. The agent uses the instructions above to understand how and when to use these tools. 
     tools=[
         get_status,
         app_charge,
