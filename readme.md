@@ -7,6 +7,8 @@ This is a Google Agent Development Kit (ADK) example which can control a Roboroc
 
 This is a personal development project and is not related to Google or Roborock professionally or at a partnership level. 
 
+(will add useage examples) This agent allows for natural language interaction with your Roborock device. The Agent translates your natural language chat inputs into valid commanda by making ise of the functions (tools) defined in the agent.py file
+
 It makes use of the python-roborock library:
 - https://github.com/Python-roborock/python-roborock/tree/main/docs
 
