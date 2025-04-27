@@ -213,12 +213,12 @@ async def get_room_mapping():
         return {"error": f"Error sending {command}: {e}. Connection reset."}
 
 # cleans a specific room also known as segment. To Do is to make this dynamic based upon desired segment from instructions mapping in thr Agent definition below. 
-async def app_segment_clean(segment_number: int) -> str:
+async def app_segment_clean(segment_number: dict) -> str:
     if not await ensure_login():
         return {"error": "Not logged in to Roborock."}
     command = "app_segment_clean"
     try:
-        segment = await mqtt_client.send_command(command, [{"segments": [segment_number], "repeat": 1}])
+        segment = await mqtt_client.send_command(command, [{"segments": segment_number, "repeat": 1}])
         print(f"Command sent: {command}")
         return segment
     except Exception as e:
@@ -229,7 +229,7 @@ async def app_segment_clean(segment_number: int) -> str:
 # root agent definition
 root_agent = Agent(
     name="Roborock_Agent", # ensure no spaces here
-    model="gemini-2.0-flash-001",
+    model="gemini-2.0-flash",
     description="Agent to control and get status of your Roborock vacuum",
     # natural language i struction set which explains to the agent its capabilities and how to operate
     instruction="""I can control and get the status of your Roborock vacuum.
@@ -246,7 +246,8 @@ root_agent = Agent(
         - get_room_mapping (gets a list of the rooms in a map)
         - app_segment_clean (starts cleaning rooms or segments) - when using this command, you must pass
         a segment number from the mapping below.  For example, for a request to clean Bedroom4, you would call
-        app_segment_clean(16) where you would send the number 16 as an integer
+        app_segment_clean([16]) where you would send the number 16 as an integer.  if multiple rooms are specified,
+        send both integers comma-separated such as app_segment_clean([16,17])
 
         Segment mapping:
         16 = Bedroom4
