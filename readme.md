@@ -43,12 +43,17 @@ Then create a .env file at the root of the directory with the following informat
 
 ```
 # set variables for credentials
-GOOGLE_GENAI_USE_VERTEXAI="false" # assumes you will use AI Studio
-GOOGLE_API_KEY="your AI Studio Key" # check https://aistudio-preprod.corp.google.com/apikey
 
-ROBOROCK_USERNAME = "your Roborock Username"
-ROBOROCK_PASSWORD = "your Roborock Password"
+# Set use of Vertex AI to true or false
+GOOGLE_GENAI_USE_VERTEXAI=FALSE
+# used of Vertex AI is set to true
+GOOGLE_CLOUD_PROJECT="your gcp project id"
+GOOGLE_CLOUD_LOCATION="preferred region (eg:  europe-west4)"
+# used of Vertex AI is set to false
+GOOGLE_API_KEY="AI Studio key" 
 
+ROBOROCK_USERNAME = "your Roborock user id (email)"
+ROBOROCK_PASSWORD = "your Roborock password"
 ```
 # Running locally
 From the directory above roborock-s8-agent,
