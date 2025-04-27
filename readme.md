@@ -43,18 +43,32 @@ Then create a .env file at the root of the directory with the following informat
 
 ```
 # set variables for credentials
+GOOGLE_GENAI_USE_VERTEXAI="false" # assumes you will use AI Studio
+GOOGLE_API_KEY="your AI Studio Key" # check https://aistudio-preprod.corp.google.com/apikey
 
-# Set use of Vertex AI to true or false
-GOOGLE_GENAI_USE_VERTEXAI=FALSE
-# used of Vertex AI is set to true
-GOOGLE_CLOUD_PROJECT="your gcp project id"
-GOOGLE_CLOUD_LOCATION="preferred region (eg:  europe-west4)"
-# used of Vertex AI is set to false
-GOOGLE_API_KEY="AI Studio key" 
+ROBOROCK_USERNAME = "your Roborock Username"
+ROBOROCK_PASSWORD = "your Roborock Password"
 
-ROBOROCK_USERNAME = "your Roborock user id (email)"
-ROBOROCK_PASSWORD = "your Roborock password"
 ```
+# Agent Configuration
+After the above installation, you will need to update the room mapping in your instructions.  You can do this using the output of the get_room_mappings function from the agent after you run locally below.  You can see from the output here, they are only returned as identifiers and not your actually room names.
+![image](https://github.com/user-attachments/assets/440a02d4-66fd-446b-bd2b-8f71b83c8715)
+And on the left side, you can see and scroll to get all of your room indexes (in this case starting at 16)
+![image](https://github.com/user-attachments/assets/f55ee86d-9587-4520-93cf-c86018f88fbd)
+Next, add your indexes to the instructions section of your root_agent
+```
+Segment mapping:
+16 = Bedroom4
+17 = Balcony
+18 = Bedroom3
+...
+```
+Next using the placeholders I have here, ask the agent to clean Bedroom 4.
+![image](https://github.com/user-attachments/assets/76092257-9ed2-4010-8fcd-178f0248a5b6)
+Now in the Roborock App, you can see which room actually will be cleaned.
+![image](https://github.com/user-attachments/assets/851bfff1-1104-4f11-9093-bd83c2cca364)
+Now update the instructions line for 16 with your actual room name. You can type stop immediately and keep iterating until complete without having to return to the dock.
+
 # Running locally
 From the directory above roborock-s8-agent,
 ```
