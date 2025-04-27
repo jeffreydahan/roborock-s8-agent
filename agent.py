@@ -231,7 +231,7 @@ root_agent = Agent(
     name="Roborock_Agent", # ensure no spaces here
     model="gemini-2.0-flash",
     description="Agent to control and get status of your Roborock vacuum",
-    # natural language i struction set which explains to the agent its capabilities and how to operate
+    # natural language instruction set which explains to the agent its capabilities and how to operate
     instruction="""I can control and get the status of your Roborock vacuum.
         I can handle the following commands
         - get_status (this command gets the current status of the Roborock)
