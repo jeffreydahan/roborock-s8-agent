@@ -26,7 +26,7 @@ The current features are also listed in the agent.py root_agent instructions
 - app_start_collect_dust (this command starts emptying the dust bin)
 - app_stop_collect_dust (this command stops emptying the dust bin)
 - get_room_mapping (gets a list of the rooms in a map)
-- app_segment_clean (starts cleaning rooms or segments)
+- app_segment_clean (starts cleaning rooms or segments, single or multiple)
 
 # Installation Steps
 Create a python virtual environment
@@ -74,6 +74,8 @@ Next using the placeholders I have here, ask the agent to clean Bedroom 4.
 Now in the Roborock App, you can see which room actually will be cleaned.
 ![image](https://github.com/user-attachments/assets/851bfff1-1104-4f11-9093-bd83c2cca364)
 Now update the instructions line for 16 with your actual room name. You can type stop immediately and keep iterating until complete without having to return to the dock.
+
+You can also ask the agent to clean multiple rooms since it will pass the segment numbers as a python dictionary
 # Limitations and Issues
 You must add a mapping manually in the agent.py root_agent instruction sections to let the agent know which room name corresponds to which segment name.  See above for how to do this.
 
