@@ -2,7 +2,7 @@
 ![image](https://github.com/user-attachments/assets/ea67fb7e-f4d5-4db2-aa2b-6e94a1e5b0fd)
 
 
-This is a Google Agent Development Kit (ADK) example which can control a Roborock device
+This is a Google Agent Development Kit (ADK) example which can control a Roborock device. The ADK can be downloaded from here:
 - https://github.com/google/adk-samples/tree/main
 
 This is a personal development project and is not related to Google or Roborock professionally or at a partnership level.  
