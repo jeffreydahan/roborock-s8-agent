@@ -44,11 +44,13 @@ Then create a .env file at the root of the directory with the following informat
 ```
 # set variables for credentials
 
-# Set use of Vertex AI to true or false
+# Set use if Vertex AI to true or false
 GOOGLE_GENAI_USE_VERTEXAI=FALSE
 # used of Vertex AI is set to true
 GOOGLE_CLOUD_PROJECT="your gcp project id"
 GOOGLE_CLOUD_LOCATION="preferred region (eg:  europe-west4)"
+GOOGLE_CLOUD_QUOTA_PROJECT="your gcp project id9"
+GOOGLE_CLOUD_STORAGE_BUCKET="gs://[your staging directory]" # If you deploy to cloud run
 # used of Vertex AI is set to false
 GOOGLE_API_KEY="AI Studio key" 
 
