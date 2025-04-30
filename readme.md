@@ -3,7 +3,7 @@
 
 
 This is a Google Agent Development Kit (ADK) example which can control a Roborock device. The ADK can be downloaded from here:
-- https://github.com/google/adk-samples/tree/main
+- https://github.com/google/adk-python
 
 This is a personal development project and is not related to Google or Roborock professionally or at a partnership level.  
 
@@ -12,7 +12,7 @@ Gemini Code Assist was extremely valuable with this effort and saved many hours 
 This agent allows for natural language interaction with your Roborock device. The Agent translates your natural language chat inputs into valid commanda by making use of the functions (tools) defined in the agent.py file
 
 It makes use of the python-roborock library:
-- https://github.com/Python-roborock/python-roborock/tree/main/docs
+- https://github.com/Python-roborock/python-roborock
 
 # Current Features
 The current features are also listed in the agent.py root_agent instructions
@@ -27,6 +27,13 @@ The current features are also listed in the agent.py root_agent instructions
 - app_stop_collect_dust (this command stops emptying the dust bin)
 - get_room_mapping (gets a list of the rooms in a map)
 - app_segment_clean (starts cleaning rooms or segments, single or multiple)
+
+The commands are split into 3 function calls:
+- get_status since it has a different command structure
+- send_basic_command for commands with no extra arguments
+- app_segment_clean for room cleaning commands since there are extra list arguments for the room index
+
+Some of the above command separation was due to issues with passing optional parameters.  This needs some work.
 
 # Installation Steps
 Create a python virtual environment
