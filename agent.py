@@ -167,15 +167,6 @@ root_agent = Agent(
     tools=[
         get_status,
         send_basic_command,
-        # app_charge,
-        # app_start_wash,
-        # app_stop_wash,
-        # app_start,
-        # app_stop,
-        # app_pause,
-        # app_start_collect_dust,
-        # app_stop_collect_dust,
-        # get_room_mapping,
         app_segment_clean,
     ],
 )
