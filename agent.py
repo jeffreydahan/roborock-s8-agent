@@ -1,7 +1,6 @@
 # Import ADK Agent and other libraries
 from google.adk.agents import Agent
 import os  # Import the os module for environment variables
-import asyncio
 from dotenv import load_dotenv
 
 # Import Roborock libraries
