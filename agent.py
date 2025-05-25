@@ -78,7 +78,9 @@ async def get_status():
             "error": status.error_code_name,
             "fan_speed": status.fan_power_name,
             "mop_mode": status.mop_mode_name,
-            "docked": status.state_name == "charging"
+            "docked": status.state_name == "charging",
+            "current_errors": status.error_code_name,
+            "water_tank_empty": status.water_shortage_status == 1,
         }
     except Exception as e:
         print(f"Error getting status: {e}")
@@ -161,6 +163,9 @@ root_agent = Agent(
         24 = Bedroom1
         25 = Bedroom2
         26 = Living Room
+
+        ***Finally, format the status as a nice table***
+
         """,
     # tells the agent what tools (function names from above) it has access to. The agent uses the instructions above to understand how and when to use these tools. 
     tools=[
