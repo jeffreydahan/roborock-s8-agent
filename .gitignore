@@ -2,4 +2,3 @@
 /.venv
 /__pycache__
 .cloud_run_setup
-deployment.ipynb
