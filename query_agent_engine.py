@@ -24,7 +24,16 @@ def get_env_var(key):
 project_id=get_env_var("GOOGLE_CLOUD_PROJECT")
 staging_bucket=get_env_var("GOOGLE_CLOUD_STORAGE_BUCKET")
 location=get_env_var("GOOGLE_CLOUD_LOCATION")
-agent_engine_id=get_env_var("AGENT_ENGINE_ID")
+
+
+
+from dotenv import set_key, find_dotenv
+# Find the .env file (usually in the current directory or project root)
+dotenv_path = find_dotenv(usecwd=True)
+if not dotenv_path: # If .env is not found, default to creating one in the current directory
+    dotenv_path = ".env"
+load_dotenv(dotenv_path=dotenv_path, override=True) # Force reload from the .env file
+agent_engine_id = os.getenv("AGENT_ENGINE_APP_RESOURCE_ID")
 
 
 

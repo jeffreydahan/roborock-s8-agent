@@ -11,13 +11,12 @@ ACCESS_TOKEN=$(gcloud auth print-access-token)
 
 # Use the following from the .env file, or a default if not set
 PROJECT_ID="${GOOGLE_CLOUD_PROJECT}"
-LOCATION="${GOOGLE_CLOUD_LOCATION}"
 COLLECTION_ID="default_collection"
 ENGINE_ID="${AGENTSPACE_ENGINE_ID}"
 ASSISTANT_ID="default_assistant"
 REASONING_ENGINE_ID="${AGENT_ENGINE_APP_RESOURCE_ID}"
 
-API_ENDPOINT="https://discoveryengine.googleapis.com/v1alpha/projects/${PROJECT_ID}/locations/${LOCATION}/collections/${COLLECTION_ID}/engines/${ENGINE_ID}/assistants/${ASSISTANT_ID}/agents"
+API_ENDPOINT="https://discoveryengine.googleapis.com/v1alpha/projects/${PROJECT_ID}/locations/global/collections/${COLLECTION_ID}/engines/${ENGINE_ID}/assistants/${ASSISTANT_ID}/agents"
 
 JSON_PAYLOAD=$(cat <<EOF
 {
