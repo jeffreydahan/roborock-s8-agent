@@ -24,6 +24,8 @@ def get_env_var(key):
 project_id=get_env_var("GOOGLE_CLOUD_PROJECT")
 staging_bucket=get_env_var("GOOGLE_CLOUD_STORAGE_BUCKET")
 location=get_env_var("GOOGLE_CLOUD_LOCATION")
+agent_engine_id=get_env_var("AGENT_ENGINE_ID")
+
 
 
 # initialitze vertexai
@@ -33,7 +35,7 @@ vertexai.init(
     staging_bucket=staging_bucket,
 )
 
-remote_app = vertexai.agent_engines.get('projects/732115074534/locations/us-central1/reasoningEngines/5095585483858116608')
+remote_app = vertexai.agent_engines.get(agent_engine_id)
 remote_app_resource_name = remote_app.resource_name
 remote_app_resource_name
 
