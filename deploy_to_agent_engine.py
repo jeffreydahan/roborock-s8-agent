@@ -1,15 +1,20 @@
-# Import ADK Agent and other libraries
-from google.adk.agents import Agent
-import os  # Import the os module for environment variables
 from dotenv import load_dotenv
+
+load_dotenv()
+
+
+from google.adk.agents import Agent
+import vertexai
+
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
 
 # Import Roborock libraries
 from roborock import HomeDataProduct, DeviceData, RoborockCommand
 from roborock.version_1_apis import RoborockMqttClientV1, RoborockLocalClientV1
 from roborock.web_api import RoborockApiClient
-
-
-load_dotenv()  # Load environment variables from .env file
 
 # Global variables to hold the MQTT client and device
 mqtt_client = None
@@ -78,9 +83,7 @@ async def get_status():
             "error": status.error_code_name,
             "fan_speed": status.fan_power_name,
             "mop_mode": status.mop_mode_name,
-            "docked": status.state_name == "charging",
-            "current_errors": status.error_code_name,
-            "water_tank_empty": status.water_shortage_status == 1,
+            "docked": status.state_name == "charging"
         }
     except Exception as e:
         print(f"Error getting status: {e}")
@@ -100,7 +103,7 @@ async def send_basic_command(command: str) -> str:
         await reset_connection()
         return {"error": f"Error sending {command}: {e}. Connection reset."}
 
-# cleans a specific room also known as segment. To Do is to make this dynamic based upon desired segment from instructions mapping in the Agent definition below. 
+# cleans a specific room also known as segment. To Do is to make this dynamic based upon desired segment from instructions mapping in the Agent definition below.
 async def app_segment_clean(segment_number: dict) -> str:
     if not await ensure_login():
         return {"error": "Not logged in to Roborock."}
@@ -113,9 +116,10 @@ async def app_segment_clean(segment_number: dict) -> str:
         print(f"Error sending {command}: {e}")
         await reset_connection()
         return {"error": f"Error sending {command}: {e}. Connection reset."}
+    
 
 # root agent definition
-root_agent = Agent(
+root_agent =  Agent(
     name="Roborock_Agent", # ensure no spaces here
     # model="gemini-2.0-flash-exp", # for live api
     model="gemini-2.0-flash",
@@ -125,7 +129,7 @@ root_agent = Agent(
         I can handle the following commands:
         - get_status (this command gets the current status of the Roborock)
         when the above command is needed, call the get_status function
-        
+
         Additional commands.  Use the send_basic_command function for these commands
         - app_charge (this command sends the Roborock back to the dock)
         - app_start_wash (this command starts the washing of the mop while docked)
@@ -142,9 +146,9 @@ root_agent = Agent(
         - for app_stop_wash call send_bacic_command("app_stop_wash")
 
         Additional commands:
-        - app_segment_clean (this command starts cleaning rooms or segments) 
+        - app_segment_clean (this command starts cleaning rooms or segments)
         - for this command, use the function app_segment_clean function
-        - when using this command, you must pass a segment number from the mapping below as a list of integers.  
+        - when using this command, you must pass a segment number from the mapping below as a list of integers.
         - For example, for a request to clean Bedroom4, you would call:
         app_segment_clean([16])
         - if multiple rooms are specified,
@@ -167,12 +171,56 @@ root_agent = Agent(
         ***Finally, format the status as a nice table***
 
         """,
-    
-    
-    # tells the agent what tools (function names from above) it has access to. The agent uses the instructions above to understand how and when to use these tools. 
+    # tells the agent what tools (function names from above) it has access to. The agent uses the instructions above to understand how and when to use these tools.
     tools=[
         get_status,
         send_basic_command,
         app_segment_clean,
     ],
 )
+
+
+project_id=get_env_var("GOOGLE_CLOUD_PROJECT")
+staging_bucket=get_env_var("GOOGLE_CLOUD_STORAGE_BUCKET")
+location=get_env_var("GOOGLE_CLOUD_LOCATION")
+
+# initialitze vertexai
+vertexai.init(
+    project=project_id,
+    location=location,
+    staging_bucket=staging_bucket,
+)
+
+
+from vertexai.preview import reasoning_engines
+
+app = reasoning_engines.AdkApp(
+    agent=root_agent,
+    enable_tracing=True,
+)
+
+requirements_path = "requirements.txt"
+with open(requirements_path, "r") as f:
+    requirements_list = [line.strip() for line in f if line.strip() and not line.startswith("#")]
+
+print(requirements_list)
+
+
+
+env_vars = {
+    "ROBOROCK_USERNAME": get_env_var('ROBOROCK_USERNAME'),
+    "ROBOROCK_PASSWORD": get_env_var('ROBOROCK_PASSWORD'),
+}
+
+from vertexai import agent_engines
+
+remote_app = agent_engines.create(
+    agent_engine=root_agent,
+    requirements=requirements_list,
+    display_name=get_env_var("APP_NAME"),
+    description="The Roborock Agent can control and get the status for the Roborock Vacuum",
+    env_vars=env_vars
+)
+
+# export the remote_app.resourcename to a REMOTE_APP_RESOURCE_ID env var
+os.environ["AGENT_ENGINE_APP_RESOURCE_ID"] = remote_app.resource_name
