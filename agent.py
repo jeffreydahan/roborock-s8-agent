@@ -8,8 +8,8 @@ from roborock import HomeDataProduct, DeviceData, RoborockCommand
 from roborock.version_1_apis import RoborockMqttClientV1, RoborockLocalClientV1
 from roborock.web_api import RoborockApiClient
 
-
-load_dotenv()  # Load environment variables from .env file
+# Load environment variables from .env file
+load_dotenv()  
 
 # Global variables to hold the MQTT client and device
 mqtt_client = None
