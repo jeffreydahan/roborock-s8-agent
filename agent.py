@@ -117,7 +117,6 @@ async def app_segment_clean(segment_number: dict) -> str:
 # root agent definition
 root_agent = Agent(
     name="Roborock_Agent", # ensure no spaces here
-    # model="gemini-2.0-flash-exp", # for live api
     model="gemini-2.0-flash",
     description="Agent to control and get status of your Roborock vacuum",
     # natural language instruction set which explains to the agent its capabilities and how to operate

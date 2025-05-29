@@ -5,7 +5,7 @@ if [ -f .env ]; then
     export $(grep -v '^#' .env | xargs)
 fi
 
-# Variables
+# Get GCP Access Token
 ACCESS_TOKEN=$(gcloud auth print-access-token)
 
 
@@ -16,8 +16,10 @@ ENGINE_ID="${AGENTSPACE_ENGINE_ID}"
 ASSISTANT_ID="default_assistant"
 REASONING_ENGINE_ID="${AGENT_ENGINE_APP_RESOURCE_ID}"
 
+# Build API Endpoint - it must use the 'global' location hard coded
 API_ENDPOINT="https://discoveryengine.googleapis.com/v1alpha/projects/${PROJECT_ID}/locations/global/collections/${COLLECTION_ID}/engines/${ENGINE_ID}/assistants/${ASSISTANT_ID}/agents"
 
+# JSON Payload to create the Agent Object inside Agentspace
 JSON_PAYLOAD=$(cat <<EOF
 {
     "displayName": "Roborock Agent",
@@ -34,9 +36,14 @@ JSON_PAYLOAD=$(cat <<EOF
 EOF
 )
 
+# Execute
 curl -X POST \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer ${ACCESS_TOKEN}" \
     -H "X-Goog-User-Project: ${PROJECT_ID}" \
     "${API_ENDPOINT}" \
     -d "${JSON_PAYLOAD}"
+
+# Go to Agentspace and click Agents to view and test your agent.
+# If you want to delete the Agent, just click the 3 dots on the Agent
+# and select Delete.
