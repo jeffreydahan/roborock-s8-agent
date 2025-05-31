@@ -1,8 +1,12 @@
 #!/bin/bash
 
 # Source environment variables from .env file
+# The previous method `export $(grep -v '^#' .env | xargs)` can be fragile.
+# Using `set -a` and `source` is generally more robust.
 if [ -f .env ]; then
-    export $(grep -v '^#' .env | xargs)
+    set -a # Automatically export all variables
+    source .env
+    set +a # Stop automatically exporting
 fi
 
 # Get GCP Access Token

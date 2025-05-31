@@ -2,7 +2,7 @@
 # to Vertex AI Agent Engine
 
 # Import everything from the agent.py
-from agent import *
+from agent import root_agent
 
 # Import Vertex AI
 import vertexai
@@ -10,7 +10,18 @@ from vertexai.preview import reasoning_engines
 from vertexai import agent_engines
 
 # Import packages to assist with writing/reading env variables
-from dotenv import set_key, find_dotenv
+from dotenv import set_key, find_dotenv, load_dotenv
+import os
+
+load_dotenv()
+
+# Helper function to get environment variables
+def get_env_var(key):
+    value = os.getenv(key)
+    if value is None:
+        raise ValueError(f"Environment variable '{key}' not found.")
+    return value
+
 
 # Set variables from env
 project_id=get_env_var("GOOGLE_CLOUD_PROJECT")
@@ -32,12 +43,13 @@ app = reasoning_engines.AdkApp(
 )
 
 
-
 # Importing all requirements previously set with 
 # pip freeze > requirements.txt
 requirements_path = "requirements.txt"
 with open(requirements_path, "r") as f:
     requirements_list = [line.strip() for line in f if line.strip() and not line.startswith("#")]
+
+print(requirements_list)
 
 # Specific environment variables that you want to pass
 # to be included with Agent Engine Deployment
@@ -52,6 +64,7 @@ remote_app = agent_engines.create(
     requirements=requirements_list,
     display_name=get_env_var("APP_NAME"),
     description="The Roborock Agent can control and get the status for the Roborock Vacuum",
+    extra_packages=["agent.py"],
     env_vars=env_vars
 )
 
