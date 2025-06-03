@@ -122,4 +122,5 @@ You can deploy custom agents to this platform.  Run the following command:
 deploy_to_agentspace.sh
 '''
 Next you will see your custom agent in the 'Agents' section of Agentspace under 'Your Agents'.  Click the agent to interact. 
+![image](https://github.com/user-attachments/assets/fe6fcb6f-0aac-4fc8-ac7a-bc202b2e0981)
 
