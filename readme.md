@@ -46,7 +46,14 @@ Install all pre-requisites using. I ran a pip freeze command which output all re
 pip install -r requirements.txt
 ```
 
-Then create a .env file at the root of the directory with the following information:
+Following the installation, ensure you run
+'''
+pip freeze > requirements.txt
+'''
+in the same directory as your 'agent.py'.  This will ensure you have the latest
+requirements set for later deployment below.
+
+Then create a .env file at the root of the directory with the following information (you can rename the 'rename.evn' file to serve as the basis for the '.env' file):
 
 ```
 # set variables for credentials
@@ -93,4 +100,26 @@ You can also ask the agent to clean multiple rooms since it will pass the segmen
 # Limitations and Issues
 You must add a mapping manually in the agent.py root_agent instruction sections to let the agent know which room name corresponds to which segment name.  See above for how to do this.
 
-For future functionality, you will see a full listing of all commands in the commands.txt file.  If you add your own functionality, ensure you add the functions in the code, add the name of the function to the tools section, and add the details to the instructions section.
+# Bonus - Deploy to Agent Engine
+There are some additional options be deloy to Google Agent Engine
+- https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview
+
+Make sure you run the scripts below from the same folder as 'agent.py'
+
+In order to deploy the agent to Agent Engine, run the following command:
+'''
+python3 deploy_to_agent_engine.py
+'''
+This will take 5 to 10 for the deployment to complete.  At this point, you can run some test queries using 'query_agent_engine.py'.  You can modify the 'message' variable towards the bottom of the file to adjust your query.  You will see the output in the console.  To run the query, run the following command:
+'''
+python3 query_agent_engine.py
+'''
+# Bonus #2 - Deploy the Agent to Google Agentspace
+Google Agentspace is Google's Agentic AI and Enterprise search hub.  
+- https://cloud.google.com/agentspace/docs/overview
+You can deploy custom agents to this platform.  Run the following command:
+'''
+deploy_to_agentspace.sh
+'''
+Next you will see your custom agent in the 'Agents' section of Agentspace under 'Your Agents'.  Click the agent to interact. 
+
